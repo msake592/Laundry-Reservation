@@ -1,4 +1,4 @@
-# Laundry Reservation System
+# Laundry Management System
 
 A simple role-based laundry reservation system built with Spring Boot.
 
