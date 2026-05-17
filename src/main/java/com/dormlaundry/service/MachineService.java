@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dormlaundry.exception.ResourceNotFoundException;
 import com.dormlaundry.model.Machine;
 import com.dormlaundry.model.MachineStatus;
 import com.dormlaundry.model.Reservation;
@@ -71,5 +72,28 @@ public class MachineService {
         }
         machineRepository.deleteById(id);
         return true;
+    }
+    public Machine updateMachineStatus(Long machineId, MachineStatus status) {
+        Machine machine = machineRepository.findById(machineId)
+               .orElseThrow(() -> new ResourceNotFoundException("Machine not found with id: " + machineId));
+    
+        machine.setStatus(status);
+    
+        if (status == MachineStatus.BROKEN) {
+            List<Reservation> futureReservations =
+                    reservationRepository.findByMachineIdAndStatusAndStartTimeAfter(
+                            machineId,
+                            ReservationStatus.ACTIVE,
+                            LocalDateTime.now()
+                    );
+    
+            for (Reservation reservation : futureReservations) {
+                reservation.setStatus(ReservationStatus.CANCELLED);
+            }
+    
+            reservationRepository.saveAll(futureReservations);
+        }
+    
+        return machineRepository.save(machine);
     }
 }

@@ -1,4 +1,5 @@
 com/dormlaundry/controller/AuthController.class
+com/dormlaundry/exception/ResourceNotFoundException.class
 com/dormlaundry/service/MachineService.class
 com/dormlaundry/service/ReservationService.class
 com/dormlaundry/DormLaundryApplication.class
@@ -7,6 +8,7 @@ com/dormlaundry/dto/RegisterRequest.class
 com/dormlaundry/dto/LoginRequest.class
 com/dormlaundry/model/MachineStatus.class
 com/dormlaundry/exception/ErrorResponse.class
+com/dormlaundry/security/JwtAuthenticationFilter.class
 com/dormlaundry/model/Role.class
 com/dormlaundry/repository/UserRepository.class
 com/dormlaundry/config/SecurityConfig.class
@@ -17,6 +19,7 @@ com/dormlaundry/controller/ReservationController$RescheduleRequest.class
 com/dormlaundry/model/MachineType.class
 com/dormlaundry/service/CustomUserDetailsService.class
 com/dormlaundry/model/Reservation.class
+com/dormlaundry/security/JwtService.class
 com/dormlaundry/model/ReservationStatus.class
 com/dormlaundry/repository/ReservationRepository.class
 com/dormlaundry/controller/ReservationController.class

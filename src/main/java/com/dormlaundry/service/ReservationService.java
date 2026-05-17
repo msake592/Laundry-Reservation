@@ -2,6 +2,7 @@ package com.dormlaundry.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,14 @@ public class ReservationService {
             MachineRepository machineRepository) {
         this.reservationRepository = reservationRepository;
         this.machineRepository = machineRepository;
+    }
+
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
+    }
+
+    public Optional<Reservation> getReservationById(Long id) {
+        return reservationRepository.findById(id);
     }
 
     @Transactional

@@ -10,6 +10,7 @@
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/exception/ErrorResponse.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/exception/GlobalExceptionHandler.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/exception/ReservationNotAllowedException.java
+/Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/exception/ResourceNotFoundException.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/model/Machine.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/model/MachineStatus.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/model/MachineType.java
@@ -20,6 +21,8 @@
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/repository/MachineRepository.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/repository/ReservationRepository.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/repository/UserRepository.java
+/Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/security/JwtAuthenticationFilter.java
+/Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/security/JwtService.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/service/CustomUserDetailsService.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/service/MachineService.java
 /Users/mahmutsalihkelkit/Documents/Github/Dorm-Laundry-Management/src/main/java/com/dormlaundry/service/ReservationService.java

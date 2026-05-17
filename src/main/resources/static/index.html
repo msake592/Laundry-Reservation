@@ -1,90 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Dorm Laundry Reservation</title>
+    <title>Laundry Reservation System</title>
 </head>
 <body>
-    <div id="adminSection">
-        <h3>Create Machine (Admin Only)</h3>
-    
-        <label>Type:</label>
-        <input type="text" id="machineType">
-    
-        <br><br>
-    
-        <label>Status:</label>
-        <input type="text" id="machineStatus">
-    
-        <br><br>
-    
-        <button onclick="createMachine()">Create Machine</button>
-    
-        <p id="machineResult"></p>
-    
-        <hr>
-    </div>
-<h1>Dorm Laundry Reservation</h1>
 
+<h2>Laundry Reservation Dashboard</h2>
+<button onclick="logout()">Logout</button>
 <hr>
 
-<h3>Create Reservation</h3>
+<!-- ADMIN SECTION -->
+<div id="adminSection" style="display:none;">
+    <h3>Add Machine (Admin Only)</h3>
 
-<label>Machine ID:</label>
-<input type="number" id="machineId">
+    <input type="text" id="machineType" placeholder="Machine Type (WASHING_MACHINE)">
+    <input type="text" id="machineStatus" placeholder="Status (AVAILABLE)">
+    <button onclick="createMachine()">Create Machine</button>
 
-<br><br>
+    <p id="machineResult"></p>
+    <hr>
+</div>
 
-<label>Start Time:</label>
-<input type="datetime-local" id="startTime">
+<!-- USER SECTION -->
+<div id="userSection">
+    <h3>Create Reservation</h3>
 
-<br><br>
+    <input type="number" id="machineId" placeholder="Machine ID">
+    <input type="datetime-local" id="startTime">
+    <input type="datetime-local" id="endTime">
+    <button onclick="createReservation()">Reserve</button>
 
-<label>End Time:</label>
-<input type="datetime-local" id="endTime">
+    <p id="createResult"></p>
 
-<br><br>
+    <hr>
 
-<button onclick="createReservation()">Create Reservation</button>
+    <h3>Delete Reservation</h3>
+    <input type="number" id="deleteId" placeholder="Reservation ID">
+    <button onclick="deleteReservation()">Delete</button>
 
-<p id="createResult"></p>
+    <p id="deleteResult"></p>
 
-<hr>
+    <hr>
 
-<h3>Delete Reservation</h3>
+    <h3>Reschedule Reservation</h3>
+    <input type="number" id="rescheduleId" placeholder="Reservation ID">
+    <input type="datetime-local" id="newStartTime">
+    <input type="datetime-local" id="newEndTime">
+    <button onclick="rescheduleReservation()">Reschedule</button>
 
-<label>Reservation ID:</label>
-<input type="number" id="deleteId">
+    <p id="rescheduleResult"></p>
+</div>
 
-<br><br>
-
-<button onclick="deleteReservation()">Delete Reservation</button>
-
-<p id="deleteResult"></p>
-
-<hr>
-
-<h3>Reschedule Reservation</h3>
-
-<label>Reservation ID:</label>
-<input type="number" id="rescheduleId">
-
-<br><br>
-
-<label>New Start Time:</label>
-<input type="datetime-local" id="newStartTime">
-
-<br><br>
-
-<label>New End Time:</label>
-<input type="datetime-local" id="newEndTime">
-
-<br><br>
-
-<button onclick="rescheduleReservation()">Reschedule</button>
-
-<p id="rescheduleResult"></p>
+<script>
+function logout() {
+    localStorage.removeItem("authHeader");
+    localStorage.removeItem("role");
+    window.location.href = "login.html";
+}
+</script>
 
 <script src="app.js"></script>
+
 </body>
 </html>

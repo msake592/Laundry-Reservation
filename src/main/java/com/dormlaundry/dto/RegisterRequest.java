@@ -1,6 +1,7 @@
 package com.dormlaundry.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import com.dormlaundry.model.Role;
 
 public class RegisterRequest {
 
@@ -10,6 +11,8 @@ public class RegisterRequest {
     @NotBlank
     private String password;
 
+    private Role role;
+
     public RegisterRequest() {}
 
     public String getUsername() { return username; }
@@ -17,4 +20,7 @@ public class RegisterRequest {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }
