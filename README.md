@@ -1,56 +1,50 @@
 # Laundry Reservation System
 
-A simple role-based laundry reservation backend built with:
+A simple role-based laundry reservation system built with Spring Boot.
 
-- Spring Boot
-- Spring Security (Basic Auth)
-- PostgreSQL
-- JPA / Hibernate
-
-## Features
-
-- User registration (BCrypt password hashing)
-- Basic Authentication login
-- Role-based access (ADMIN / USER)
-- Machine management (Admin only)
-- Reservation creation
-- Reservation deletion
-- Reservation rescheduling
-- Time conflict validation
-- Start/End time validation
-
-## Tech Stack
+## Current Tech Stack
 
 - Java 17+
 - Spring Boot 3
 - Spring Security
-- PostgreSQL
+- JWT Authentication
+- Spring Data JPA / Hibernate
 - Maven
+- Basic HTML, CSS, and JavaScript frontend
+- Postman for API testing
+
+## Current Features
+
+- User registration with BCrypt password hashing
+- JWT-based login
+- Role-based access control with ADMIN and USER roles
+- Admin-authorized machine management
+- Machine listing
+- Reservation creation
+- Reservation listing
+- Start/end time validation
+- Time conflict validation
 
 ## Roles
 
-ADMIN:
-- Create machines
+### ADMIN
 
-USER:
-- Create reservation
-- Delete reservation
-- Reschedule reservation
+- Create machines
+- View machines
+- Create reservations
+- View reservations
+
+### USER
+
+- View machines
+- Create reservations
+- View reservations
 
 ## Authentication
 
-Basic Authentication is used.
-Credentials must be sent via Authorization header.
+JWT authentication is used.
 
-## Database
+After login, the backend returns a token. This token must be sent in the `Authorization` header for protected endpoints:
 
-PostgreSQL is required.
-Tables are generated automatically via JPA.
-
----
-
-This project was built for backend learning purposes and focuses on:
-- REST design
-- Validation
-- Security
-- Role-based UI logic
+```http
+Authorization: Bearer <token>
