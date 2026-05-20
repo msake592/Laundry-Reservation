@@ -26,6 +26,7 @@ public class MachineController {
 
     @PostMapping
     public Machine addMachine(@RequestBody Machine machine){
+        System.out.println("MACHINE CONTROLLER: addMachine reached with " + machine);
         return machineService.addMachine(machine);
     }
 
@@ -45,6 +46,12 @@ public class MachineController {
         Optional<Machine> machineOptional = machineService.markMachineAsBroken(id);
         return machineOptional.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
+    @PatchMapping("/{id}/available")
+    public ResponseEntity<Machine> markAsAvailable(@PathVariable Long id){
+        Optional<Machine> machineOptional = machineService.markMachineAsAvailable(id);
+        return machineOptional.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMachine(@PathVariable Long id){

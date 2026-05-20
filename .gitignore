@@ -1,0 +1,10 @@
+target/
+node_modules/
+.DS_Store
+
+# frontend dependencies/build
+laundry-frontend/node_modules/
+laundry-frontend/dist/
+
+# logs
+*.log

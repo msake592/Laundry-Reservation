@@ -85,7 +85,15 @@ public class AuthController {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
         String token = jwtService.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthResponse(token));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return ResponseEntity.ok(new AuthResponse(
+                token,
+                user.getUsername(),
+                user.getRole().name()
+        ));
+        
     }
 
     @GetMapping("/me")

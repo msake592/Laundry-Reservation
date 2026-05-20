@@ -35,7 +35,7 @@ public class ReservationService {
     }
 
     @Transactional
-    public Reservation createReservation(Long machineId, String userId, LocalDateTime start, LocalDateTime end) {
+    public Reservation createReservation(Long machineId, String username, LocalDateTime start, LocalDateTime end) {
 
         Machine machine = machineRepository.findById(machineId)
                 .orElseThrow(() -> new ReservationNotAllowedException("Machine not found"));
@@ -61,7 +61,7 @@ public class ReservationService {
 
         Reservation reservation = new Reservation();
         reservation.setMachine(machine);
-        reservation.setUserId(userId);
+        reservation.setUserId(username);
         reservation.setStartTime(start);
         reservation.setEndTime(end);
         reservation.setStatus(ReservationStatus.ACTIVE);
@@ -75,6 +75,10 @@ public class ReservationService {
                 .orElseThrow(() -> new ReservationNotAllowedException("Reservation couldn't find!"));
         reservation.setStatus(ReservationStatus.COMPLETED);
         return reservationRepository.save(reservation);
+    }
+
+    public List<Reservation> getReservationsByUsername(String username) {
+        return reservationRepository.findByUserId(username);
     }
 
     @Transactional

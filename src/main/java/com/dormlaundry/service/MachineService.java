@@ -65,6 +65,19 @@ public class MachineService {
 
         return machineOpt;
     }
+    @Transactional
+public Optional<Machine> markMachineAsAvailable(Long id) {
+    Optional<Machine> machineOpt = machineRepository.findById(id);
+
+    if (machineOpt.isPresent()) {
+        Machine machine = machineOpt.get();
+        machine.setStatus(MachineStatus.AVAILABLE);
+
+        machineRepository.save(machine);
+    }
+
+    return machineOpt;
+}
 
     public boolean deleteMachine(Long id) {
         if (!machineRepository.existsById(id)) {

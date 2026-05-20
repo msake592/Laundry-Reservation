@@ -32,6 +32,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
 
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         return path.equals("/")
                 || path.equals("/index.html")
                 || path.equals("/favicon.ico")
@@ -52,9 +56,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("JWT FILTER: No Bearer token found for " + request.getMethod() + " " + request.getServletPath());
             filterChain.doFilter(request, response);
             return;
         }
@@ -65,7 +75,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
+            System.out.println("JWT FILTER: Request = " + request.getMethod() + " " + request.getServletPath());
+            System.out.println("JWT FILTER: Username = " + userDetails.getUsername());
+            System.out.println("JWT FILTER: Authorities = " + userDetails.getAuthorities());
+
             if (jwtService.isTokenValid(jwt, userDetails)) {
+                System.out.println("JWT FILTER: Token is valid");
+
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
@@ -78,6 +94,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("JWT FILTER: Authentication set = " + SecurityContextHolder.getContext().getAuthentication());
+            } else {
+                System.out.println("JWT FILTER: Token is NOT valid");
             }
         }
 
