@@ -1,8 +1,10 @@
 # Laundry Management System
 
-A simple role-based laundry reservation system built with Spring Boot.
+A role-based laundry machine and reservation management system built with Spring Boot and React.
 
-## Current Tech Stack
+## Tech Stack
+
+### Backend
 
 - Java 17+
 - Spring Boot 3
@@ -10,35 +12,50 @@ A simple role-based laundry reservation system built with Spring Boot.
 - JWT Authentication
 - Spring Data JPA / Hibernate
 - Maven
-- Basic HTML, CSS, and JavaScript frontend
+
+### Frontend
+
+- React
+- Vite
+- Axios
+- CSS
+
+### Testing
+
 - Postman for API testing
 
-## Current Features
+## Features
 
 - User registration with BCrypt password hashing
 - JWT-based login
 - Role-based access control with ADMIN and USER roles
-- Admin-authorized machine management
 - Machine listing
+- Admin-authorized machine management
 - Reservation creation
 - Reservation listing
+- Reservation deletion with role and ownership checks
 - Start/end time validation
 - Time conflict validation
+- Separate dashboard behavior for ADMIN and USER
 
-## Roles
+## Roles and Permissions
 
 ### ADMIN
 
-- Create machines
 - View machines
+- Create machines
+- Update machine status
+- Delete machines
+- View all reservations
 - Create reservations
-- View reservations
+- Delete any reservation
 
 ### USER
 
-- View machines
+- View available machines
 - Create reservations
-- View reservations
+- View all reservations
+- Delete only their own reservations
 
 ## Authentication
 
@@ -48,3 +65,45 @@ After login, the backend returns a token. This token must be sent in the `Author
 
 ```http
 Authorization: Bearer <token>
+
+The frontend stores the token after login and sends it automatically with protected API requests.
+
+Reservation Rules
+
+* Users can view all reservations.
+* Users can delete only their own reservations.
+* Admins can delete any reservation.
+* Reservations cannot overlap for the same machine.
+* Reservation end time must be after start time.
+* Reservation start time must be in the future.
+
+
+Project Structure
+src/main/java/com/dormlaundry
+├── config
+├── controller
+├── dto
+├── exception
+├── model
+├── repository
+├── security
+└── service
+
+laundry-frontend
+├── src
+│   ├── components
+│   ├── pages
+│   └── services
+└── package.json
+
+Development Status
+
+The project currently supports JWT authentication, role-based access control, machine management, and reservation management.
+
+Recent updates include:
+
+* Users can now view all reservations.
+* Users can delete only their own reservations.
+* Admins can delete any reservation.
+* Reservation delete permissions are enforced on the backend.
+* User dashboard reservation behavior was updated on the frontend.
