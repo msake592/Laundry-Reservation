@@ -63,7 +63,6 @@ JWT authentication is used.
 
 After login, the backend returns a token. This token must be sent in the `Authorization` header for protected endpoints:
 
-```http
 Authorization: Bearer <token>
 
 The frontend stores the token after login and sends it automatically with protected API requests.
@@ -107,3 +106,22 @@ Recent updates include:
 * Admins can delete any reservation.
 * Reservation delete permissions are enforced on the backend.
 * User dashboard reservation behavior was updated on the frontend.
+
+## Getting Started
+
+### Prerequisites
+Before running the application, make sure you have the following installed:
+- Java 17 or higher
+- Node.js (v18+ recommended)
+- Your preferred SQL Database (e.g., PostgreSQL/MySQL)
+
+### Installation & Running
+
+#### 1. Backend Setup
+Clone the repository and navigate to the project root:
+```bash
+# Navigate to backend (if applicable) or use root
+# Update your application.properties / application.yml with your database credentials
+
+# Run the Spring Boot application
+./mvnw spring-boot:run
