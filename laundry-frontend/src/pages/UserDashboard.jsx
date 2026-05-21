@@ -3,7 +3,6 @@ import { getMachines } from "../services/machineService";
 import {
   createReservation,
   deleteReservation,
-  getMyReservations,
   getReservations,
 } from "../services/reservationService";
 
@@ -11,7 +10,6 @@ function UserDashboard() {
   const username = localStorage.getItem("username");
 
   const [machines, setMachines] = useState([]);
-  const [myReservations, setMyReservations] = useState([]);
   const [allReservations, setAllReservations] = useState([]);
   const [selectedMachineId, setSelectedMachineId] = useState("");
   const [startTime, setStartTime] = useState("");
@@ -60,11 +58,6 @@ function UserDashboard() {
     }
   };
 
-  const loadMyReservations = async () => {
-    const data = await getMyReservations();
-    setMyReservations(data);
-  };
-
   const loadAllReservations = async () => {
     const data = await getReservations();
     setAllReservations(data);
@@ -75,11 +68,15 @@ function UserDashboard() {
 
     try {
       await loadMachines();
-      await loadMyReservations();
       await loadAllReservations();
     } catch (err) {
       setError(getErrorMessage(err));
     }
+  };
+
+  const isReservationOwner = (reservation) => {
+    const reservationOwner = reservation.userId || reservation.user?.username;
+    return reservationOwner === username;
   };
 
   const handleCreateReservation = async (e) => {
@@ -92,7 +89,6 @@ function UserDashboard() {
       setMessage("Reservation created successfully.");
       setStartTime("");
       setEndTime("");
-      await loadMyReservations();
       await loadAllReservations();
     } catch (err) {
       setError(getErrorMessage(err));
@@ -106,7 +102,6 @@ function UserDashboard() {
     try {
       await deleteReservation(reservationId);
       setMessage("Reservation deleted successfully.");
-      await loadMyReservations();
       await loadAllReservations();
     } catch (err) {
       setError(getErrorMessage(err));
@@ -190,47 +185,6 @@ function UserDashboard() {
       </div>
 
       <div className="dashboard-card">
-        <h2>My Reservations</h2>
-
-        {myReservations.length === 0 ? (
-          <p>No reservations found.</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Machine</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {myReservations.map((reservation) => (
-                <tr key={reservation.id}>
-                  <td>{reservation.id}</td>
-                  <td>
-                    {reservation.machine?.id || reservation.machineId || "-"}
-                  </td>
-                  <td>{reservation.startTime}</td>
-                  <td>{reservation.endTime}</td>
-                  <td>{reservation.status}</td>
-                  <td>
-                    <button
-                      onClick={() => handleDeleteReservation(reservation.id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-      <div className="dashboard-card">
         <h2>All Reservations</h2>
 
         {allReservations.length === 0 ? (
@@ -245,6 +199,7 @@ function UserDashboard() {
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -258,6 +213,15 @@ function UserDashboard() {
                   <td>{reservation.startTime}</td>
                   <td>{reservation.endTime}</td>
                   <td>{reservation.status}</td>
+                  <td>
+                    {isReservationOwner(reservation) && (
+                      <button
+                        onClick={() => handleDeleteReservation(reservation.id)}
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

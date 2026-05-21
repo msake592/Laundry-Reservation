@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,14 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Future;
-import java.time.LocalDateTime;
-import com.dormlaundry.model.Reservation;
-import com.dormlaundry.service.ReservationService;
 
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import com.dormlaundry.model.Reservation;
+import com.dormlaundry.service.ReservationService;
 
 @RestController
 @RequestMapping("/reservations")
@@ -60,27 +59,38 @@ public class ReservationController {
         return ResponseEntity.ok(saved);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReservation(
+            @PathVariable Long id,
+            Authentication authentication) {
 
-public static class CreateReservationRequest {
-    @NotNull(message = "machineId is required")
-    private Long machineId;
+        String username = authentication.getName();
+        reservationService.deleteReservation(id, username);
 
-    @NotNull(message = "startTime is required")
-    @Future(message = "startTime must be in the future")
-    private LocalDateTime startTime;
+        return ResponseEntity.noContent().build();
+    }
 
-    @NotNull(message = "endTime is required")
-    private LocalDateTime endTime;
 
-    public Long getMachineId() { return machineId; }
-    public void setMachineId(Long machineId) { this.machineId = machineId; }
+    public static class CreateReservationRequest {
+        @NotNull(message = "machineId is required")
+        private Long machineId;
 
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
+        @NotNull(message = "startTime is required")
+        @Future(message = "startTime must be in the future")
+        private LocalDateTime startTime;
 
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
-}
+        @NotNull(message = "endTime is required")
+        private LocalDateTime endTime;
+
+        public Long getMachineId() { return machineId; }
+        public void setMachineId(Long machineId) { this.machineId = machineId; }
+
+        public LocalDateTime getStartTime() { return startTime; }
+        public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
+
+        public LocalDateTime getEndTime() { return endTime; }
+        public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
+    }
 
     // -----------------------------
     // COMPLETE RESERVATION

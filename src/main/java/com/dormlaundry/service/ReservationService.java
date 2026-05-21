@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,16 +15,21 @@ import com.dormlaundry.model.Reservation;
 import com.dormlaundry.model.ReservationStatus;
 import com.dormlaundry.repository.MachineRepository;
 import com.dormlaundry.repository.ReservationRepository;
+import com.dormlaundry.repository.UserRepository;
+import com.dormlaundry.model.User;
 
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final MachineRepository machineRepository;
+    private final UserRepository userRepository;
 
     public ReservationService(ReservationRepository reservationRepository,
-            MachineRepository machineRepository) {
+            MachineRepository machineRepository,
+            UserRepository userRepository) {
         this.reservationRepository = reservationRepository;
         this.machineRepository = machineRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Reservation> getAllReservations() {
@@ -79,6 +85,25 @@ public class ReservationService {
 
     public List<Reservation> getReservationsByUsername(String username) {
         return reservationRepository.findByUserId(username);
+    }
+
+    @Transactional
+    public void deleteReservation(Long id, String username) {
+
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotAllowedException("Reservation couldn't find!"));
+
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ReservationNotAllowedException("User couldn't find!"));
+
+        boolean isAdmin = currentUser.getRole().name().equals("ADMIN");
+        boolean isOwner = reservation.getUserId().equals(username);
+
+        if (!isAdmin && !isOwner) {
+            throw new AccessDeniedException("You can only delete your own reservations");
+        }
+
+        reservationRepository.delete(reservation);
     }
 
     @Transactional
