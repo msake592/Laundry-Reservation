@@ -1,4 +1,4 @@
-# Laundry Management System
+# Laundry Reservation System
 
 A role-based laundry machine and reservation management system built with Spring Boot and React.
 
